@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50:  #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+
+  --color-teal-50:  #f0fdfa;
+  --color-teal-100: #ccfbf1;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-card-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-modal: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { font-family: var(--font-sans); background-color: #f8fafc; color: #0f172a; line-height: 1.6; }
+.container-main { max-width: 1280px; margin-inline: auto; padding-inline: 1rem; }
+@media (min-width: 640px) { .container-main { padding-inline: 1.5rem; } }
+@media (min-width: 1024px) { .container-main { padding-inline: 2rem; } }
+.gradient-text { background: linear-gradient(to right, var(--color-primary-600), var(--color-teal-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* Custom FullCalendar CSS */
+.fc-custom-wrapper .fc-theme-standard th {
+  border-color: #f3f4f6;
+  padding: 12px 0;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.fc-custom-wrapper .fc-theme-standard td, .fc-theme-standard th {
+  border-color: #f3f4f6;
+}
+.fc-custom-wrapper .fc-col-header-cell-cushion {
+  color: #4b5563;
+}
+
+/* Hiệu ứng sự kiện (Event) nổi bật & Hover */
+.fc-custom-wrapper .fc-event {
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left-width: 4px !important;
+}
+.fc-custom-wrapper .fc-event:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  opacity: 1;
+  z-index: 10 !important;
+}
+
+/* Hiệu ứng thanh thời gian hiện tại (Now Indicator) rực rỡ hơn */
+.fc-custom-wrapper .fc-timegrid-now-indicator-line {
+  border-color: #ef4444; 
+  border-width: 2px;
+}
+.fc-custom-wrapper .fc-timegrid-now-indicator-arrow {
+  border-color: #ef4444;
+}
+
+.fc-custom-wrapper .fc-button-primary {
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+  border-radius: 8px !important;
+}
+.fc-custom-wrapper .fc-button-primary:not(:disabled):active,
+.fc-custom-wrapper .fc-button-primary:not(:disabled).fc-button-active {
+  background-color: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+}
+.fc-custom-wrapper .fc-today-button {
+  text-transform: capitalize;
+}
+
+/* Tùy chỉnh làm gọn viền FullCalendar */
+.fc-custom-wrapper .fc-theme-standard th, 
+.fc-custom-wrapper .fc-theme-standard td {
+  border-color: #f1f5f9;
+}
+.fc-custom-wrapper .fc-col-header-cell {
+  padding: 12px 0;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: capitalize;
+}

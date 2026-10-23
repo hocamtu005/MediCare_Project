@@ -1,0 +1,67 @@
+package vn.medicare.api.controller;
+
+import java.util.Map;
+import java.util.UUID;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
+import vn.medicare.api.service.SpecialtyService;
+
+@RestController
+@RequestMapping("/admin/specialties") // Chỉ Admin mới được vào path này (Đã chặn ở SecurityConfig)
+@RequiredArgsConstructor
+public class SpecialtyAdminController {
+
+    private final SpecialtyService specialtyService;
+
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(specialtyService.getAllSpecialties());
+    }
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody Map<String, String> request) {
+        try {
+            return ResponseEntity.ok(specialtyService.createSpecialty(request));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody Map<String, String> request) {
+        try {
+            return ResponseEntity.ok(specialtyService.updateSpecialty(id, request));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}/toggle-status")
+    public ResponseEntity<?> toggleStatus(@PathVariable UUID id) {
+        try {
+            String message = specialtyService.toggleSpecialtyStatus(id);
+            return ResponseEntity.ok().body("{\"message\": \"" + message + "\"}");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @org.springframework.web.bind.annotation.DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteSpecialty(@PathVariable UUID id) {
+        try {
+            specialtyService.deleteSpecialty(id);
+            return ResponseEntity.ok().body("{\"message\": \"Đã xóa chuyên khoa thành công\"}");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+}

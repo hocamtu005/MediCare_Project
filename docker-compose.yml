@@ -1,0 +1,49 @@
+services:
+  medicare-db:
+    image: postgres:15-alpine
+    container_name: medicare_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: medicare_password
+      POSTGRES_DB: medicare_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Đảm bảo DB thực sự sẵn sàng nhận kết nối
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d medicare_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - medicare_net
+
+  medicare-app:
+    build:
+      context: .
+    container_name: medicare_fullstack
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      medicare-db:
+        condition: service_healthy # Chờ healthcheck của DB pass thì mới chạy App
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://medicare-db:5432/medicare_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=medicare_password
+    volumes:
+      # Giữ lại file upload của user kể cả khi container bị xóa/tạo lại
+      - medicare_uploads:/app/uploads
+    networks:
+      - medicare_net
+
+volumes:
+  postgres_data:
+  medicare_uploads:
+
+networks:
+  medicare_net:
+    driver: bridge
